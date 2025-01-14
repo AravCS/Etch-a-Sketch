@@ -9,10 +9,6 @@ function createGrid(dimension) {
 
     for (let i = 0; i < dimension; i++) {
         const lineContainer = document.createElement('div');
-
-        let eraserTool = false;
-        let drawTool = false;
-
         for (let j = 0; j < dimension; j++) {
             // create individual grid blocks and style them
             const grid = document.createElement('div');
@@ -27,26 +23,44 @@ function createGrid(dimension) {
             lineContainer.appendChild(grid);
             lineContainer.classList.add('line-container');
 
+            let eraserTool = false;
+            let drawTool = false;
+            let rainbowTool = false;
+
             const eraser = document.querySelector('.eraser')
             const draw = document.querySelector('.draw');
+            const rainbow = document.querySelector('.rainbow');
 
             // handles draw and eraser tools
             eraser.addEventListener('click', () => {
                 eraserTool = true;
                 drawTool = false;
+                rainbowTool = false;
                 eraser.style.backgroundColor = "lightgreen";
                 draw.style.backgroundColor = "#F8FAFC";
                 reset.style.backgroundColor = "#F8FAFC";
+                rainbow.style.backgroundColor = "#F8FAFC";
             })
 
             draw.addEventListener('click', () => {
                 drawTool = true;
                 eraserTool = false;
+                rainbowTool = false;
                 draw.style.backgroundColor = "lightgreen";
                 eraser.style.backgroundColor = "#F8FAFC";
                 reset.style.backgroundColor = "#F8FAFC";
+                rainbow.style.backgroundColor = "#F8FAFC";
             })
 
+            rainbow.addEventListener('click', () => {
+                rainbowTool = true;
+                eraserTool = false;
+                drawTool = false;
+                rainbow.style.backgroundColor = "lightgreen";
+                eraser.style.backgroundColor = "#F8FAFC";
+                reset.style.backgroundColor = "#F8FAFC";
+                draw.style.backgroundColor = "#F8FAFC";
+            })
             // to handle hovering effect when drawing and erasing
             grid.addEventListener('mouseover', () => {
                 if (eraserTool) {
@@ -54,6 +68,9 @@ function createGrid(dimension) {
                 }
                 else if (drawTool) {
                     grid.style.backgroundColor = "black";
+                }
+                else if (rainbowTool) {
+                    grid.style.backgroundColor = `rgb(${getRandomInt(256)}, ${getRandomInt(256)}, ${getRandomInt(256)})`;
                 }
             })
 
@@ -64,8 +81,10 @@ function createGrid(dimension) {
                 reset.style.backgroundColor = "lightgreen";
                 eraser.style.backgroundColor = "#F8FAFC";
                 draw.style.backgroundColor = "#F8FAFC";
+                rainbow.style.backgroundColor = "#F8FAFC";
                 drawTool = false;
                 eraserTool = false;
+                rainbowTool = false;
             })
         }
         container.appendChild(lineContainer);
@@ -90,6 +109,16 @@ function load() {
 
     // Create the new grid
     createGrid(gridSize);
+}
+
+
+/**
+ * Gets a random integer in the range of 0 to max-1
+ * @param max the maximum number
+ * @returns {number} a random number from 0 to max-1
+ */
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
 }
 
 /**
