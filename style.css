@@ -1,8 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+
+body {
+    background-color: #F8FAFC;
+    font-family: 'Bangers', sans-serif;
+}
+
 .project {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 50px;
+    margin: 15px;
 }
 
 .top-container {
@@ -12,8 +19,33 @@
 .container {
     display: flex;
     flex-direction: column;
+    background-color: white;
+    width: 550px;
+    height: 550px;
+    box-shadow: 10px 10px 20px black;
 }
 
 .line-container {
     display: flex;
+    flex: 1;
+}
+
+button:hover {
+    transition: ease-in 0.4s;
+    cursor: pointer;
+    transform: scale(1.15);
+}
+
+button {
+    font-family: 'Bangers', sans-serif;
+    border-radius: 12px;
+    padding: 24px;
+    font-size: 20px;
+    background-color: #F8FAFC;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
 }

@@ -1,35 +1,117 @@
 /**
- * Function to set up the grid to be used to draw
+ * Main function to create the sketch board, and handle effects, such as hovering and reset
+ * @param dimension the dimensions of the sketch board, initial is 16x16
  */
-function grid() {
+function createGrid(dimension) {
     const container = document.querySelector('.container');
-    for (let i = 0; i < 16; i++) {
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
+
+    for (let i = 0; i < dimension; i++) {
         const lineContainer = document.createElement('div');
-        for (let j = 0; j < 16; j++) {
+
+        let eraserTool = false;
+        let drawTool = false;
+
+        for (let j = 0; j < dimension; j++) {
+            // create individual grid blocks and style them
             const grid = document.createElement('div');
-            grid.style.width = "25px";
-            grid.style.height = "25px";
+
+            grid.style.width = containerWidth / dimension;
+            grid.style.height = containerHeight / dimension;
             grid.style.border = "1px solid black";
+            grid.style.cursor = "pointer";
+            grid.style.flex = "1 1 0";
             grid.classList.add('grid-block');
 
-            grid.addEventListener('mouseover', () => {
-                grid.style.backgroundColor = "red";
-            })
             lineContainer.appendChild(grid);
+            lineContainer.classList.add('line-container');
+
+            const eraser = document.querySelector('.eraser')
+            const draw = document.querySelector('.draw');
+
+            // handles draw and eraser tools
+            eraser.addEventListener('click', () => {
+                eraserTool = true;
+                drawTool = false;
+                eraser.style.backgroundColor = "lightgreen";
+                draw.style.backgroundColor = "#F8FAFC";
+                reset.style.backgroundColor = "#F8FAFC";
+            })
+
+            draw.addEventListener('click', () => {
+                drawTool = true;
+                eraserTool = false;
+                draw.style.backgroundColor = "lightgreen";
+                eraser.style.backgroundColor = "#F8FAFC";
+                reset.style.backgroundColor = "#F8FAFC";
+            })
+
+            // to handle hovering effect when drawing and erasing
+            grid.addEventListener('mouseover', () => {
+                if (eraserTool) {
+                    grid.style.backgroundColor = "white";
+                }
+                else if (drawTool) {
+                    grid.style.backgroundColor = "black";
+                }
+            })
+
+            // to handle reset
+            const reset = document.querySelector('.reset')
+            reset.addEventListener('click', () => {
+                grid.style.backgroundColor = "white";
+                reset.style.backgroundColor = "lightgreen";
+                eraser.style.backgroundColor = "#F8FAFC";
+                draw.style.backgroundColor = "#F8FAFC";
+                drawTool = false;
+                eraserTool = false;
+            })
         }
-        lineContainer.classList.add('line-container');
         container.appendChild(lineContainer);
     }
 }
 
-grid();
-
-// how to trigger a function when a button is pressed?
 /**
-div container
- div line
-     div grid
-     div grid
-     div grid
-    . . . . .
+ * Function to get the resize the board - EX:(16x16, 32x32, and so on)
+ * Deletes the existing board, and then creates a new one
  */
+function load() {
+    // Get user input
+    let gridSize = 0;
+    gridSize = input(gridSize);
+
+    // Deletes the existing nodes
+    let container = document.querySelector('.container');
+
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+
+    // Create the new grid
+    createGrid(gridSize);
+}
+
+/**
+ * Validates user input and returns the value entered by the user
+ * @param gridSize a variable to track the gridSize entered by the user to eventually return
+ * @return gridSize the validated gridSize entered by the user
+ * @note the gridSize is valid if it is in between 0 <= gridSize <= 100
+ */
+function input(gridSize) {
+    let sentinel = -1;
+    while (sentinel === -1) {
+        if (gridSize > 100 || gridSize < 0) {
+            gridSize = parseInt(prompt("Please enter a valid number (non-negative, less than 100x100)"));
+            if (gridSize <= 100 && gridSize >= 0) {sentinel = 1;}
+        }
+        else {
+            gridSize =  parseInt(prompt(("Enter the dimension of the grid you want (less than 100x100): ")));
+            if (gridSize <= 100 && gridSize >= 0) {sentinel = 1;}
+        }
+    }
+    return gridSize;
+}
+
+// default grid (16x16)
+createGrid(16);
