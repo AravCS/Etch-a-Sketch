@@ -15,6 +15,7 @@ This mini project created a mini grid-like Sketchboard, which has a clean UI, as
 - A button to activate the resize tool (resizes the grid, ex: 64x64)
 
 Preview: https://aravcs.github.io/Etch-a-Sketch
+
 NOTE: The grid cannot be resized above 100x100 
 
 <img width="1177" alt="preview" src="https://github.com/user-attachments/assets/b9708258-a4f8-415c-a264-b3d8f5d335a5" />
