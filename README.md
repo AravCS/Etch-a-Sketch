@@ -7,7 +7,7 @@ Technologies Utilized:
 - CSS
 - HTML 
 
-This mini project created a mini grid-like Sketchboard, which has a clean UI, as well as the following features: 
+This mini project creates a mini grid-like Sketchboard, which has a clean UI, as well as the following features: 
 - A button to activate the eraser tool
 - A button to activate the reset tool
 - A button to activate the draw tool
