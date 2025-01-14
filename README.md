@@ -18,8 +18,6 @@ Preview: https://aravcs.github.io/Etch-a-Sketch
 
 NOTE: The grid cannot be resized above 100x100 
 
-<img width="1177" alt="preview" src="https://github.com/user-attachments/assets/b9708258-a4f8-415c-a264-b3d8f5d335a5" />
-
 
 
 <img width="1299" alt="preview" src="https://github.com/user-attachments/assets/7f137a2c-a86f-4eda-a249-c5ef3fd64bea" />
