@@ -1,5 +1,5 @@
 /**
- * Main function to create the sketch board, and handle effects, such as hovering and reset
+ * Main function to create the sketch board, as well as handle effects such as hovering and reset
  * @param dimension the dimensions of the sketch board, initial is 16x16
  */
 function createGrid(dimension) {
@@ -30,62 +30,9 @@ function createGrid(dimension) {
             const eraser = document.querySelector('.eraser')
             const draw = document.querySelector('.draw');
             const rainbow = document.querySelector('.rainbow');
-
-            // handles draw and eraser tools
-            eraser.addEventListener('click', () => {
-                eraserTool = true;
-                drawTool = false;
-                rainbowTool = false;
-                eraser.style.backgroundColor = "lightgreen";
-                draw.style.backgroundColor = "#F8FAFC";
-                reset.style.backgroundColor = "#F8FAFC";
-                rainbow.style.backgroundColor = "#F8FAFC";
-            })
-
-            draw.addEventListener('click', () => {
-                drawTool = true;
-                eraserTool = false;
-                rainbowTool = false;
-                draw.style.backgroundColor = "lightgreen";
-                eraser.style.backgroundColor = "#F8FAFC";
-                reset.style.backgroundColor = "#F8FAFC";
-                rainbow.style.backgroundColor = "#F8FAFC";
-            })
-
-            rainbow.addEventListener('click', () => {
-                rainbowTool = true;
-                eraserTool = false;
-                drawTool = false;
-                rainbow.style.backgroundColor = "lightgreen";
-                eraser.style.backgroundColor = "#F8FAFC";
-                reset.style.backgroundColor = "#F8FAFC";
-                draw.style.backgroundColor = "#F8FAFC";
-            })
-            // to handle hovering effect when drawing and erasing
-            grid.addEventListener('mouseover', () => {
-                if (eraserTool) {
-                    grid.style.backgroundColor = "white";
-                }
-                else if (drawTool) {
-                    grid.style.backgroundColor = "black";
-                }
-                else if (rainbowTool) {
-                    grid.style.backgroundColor = `rgb(${getRandomInt(256)}, ${getRandomInt(256)}, ${getRandomInt(256)})`;
-                }
-            })
-
-            // to handle reset
             const reset = document.querySelector('.reset')
-            reset.addEventListener('click', () => {
-                grid.style.backgroundColor = "white";
-                reset.style.backgroundColor = "lightgreen";
-                eraser.style.backgroundColor = "#F8FAFC";
-                draw.style.backgroundColor = "#F8FAFC";
-                rainbow.style.backgroundColor = "#F8FAFC";
-                drawTool = false;
-                eraserTool = false;
-                rainbowTool = false;
-            })
+
+            manageEffects(eraserTool, rainbowTool, drawTool, eraser, draw, rainbow, reset, grid);
         }
         container.appendChild(lineContainer);
     }
@@ -96,9 +43,9 @@ function createGrid(dimension) {
  * Deletes the existing board, and then creates a new one
  */
 function load() {
-    // Get user input
+    // Get user userInput
     let gridSize = 0;
-    gridSize = input(gridSize);
+    gridSize = userInput(gridSize);
 
     // Deletes the existing nodes
     let container = document.querySelector('.container');
@@ -106,11 +53,76 @@ function load() {
     while (container.firstChild) {
         container.removeChild(container.firstChild);
     }
-
+    
     // Create the new grid
     createGrid(gridSize);
 }
 
+/**
+ * Manages the effects of the drawing board and buttons 
+ * @param eraserTool the eraser tool, a bool value to indicate whether it is active or not 
+ * @param rainbowTool the rainbow tool, a bool value to indicate whether is it active or not
+ * @param drawTool the draw tool, a bool value to indicate whether it is active or not 
+ * @param eraser a reference to the eraser button 
+ * @param draw a reference to the draw button 
+ * @param rainbow a reference to the rainbow button 
+ * @param reset a reference to the reset button 
+ * @param grid a reference to the individual grid blocks 
+ */
+function manageEffects(eraserTool, rainbowTool, drawTool, eraser, draw, rainbow, reset, grid) {
+    eraser.addEventListener('click', () => {
+        eraserTool = true;
+        drawTool = false;
+        rainbowTool = false;
+        eraser.style.backgroundColor = "lightgreen";
+        draw.style.backgroundColor = "#F8FAFC";
+        reset.style.backgroundColor = "#F8FAFC";
+        rainbow.style.backgroundColor = "#F8FAFC";
+    })
+
+    draw.addEventListener('click', () => {
+        drawTool = true;
+        eraserTool = false;
+        rainbowTool = false;
+        draw.style.backgroundColor = "lightgreen";
+        eraser.style.backgroundColor = "#F8FAFC";
+        reset.style.backgroundColor = "#F8FAFC";
+        rainbow.style.backgroundColor = "#F8FAFC";
+    })
+
+    rainbow.addEventListener('click', () => {
+        rainbowTool = true;
+        eraserTool = false;
+        drawTool = false;
+        rainbow.style.backgroundColor = "lightgreen";
+        eraser.style.backgroundColor = "#F8FAFC";
+        reset.style.backgroundColor = "#F8FAFC";
+        draw.style.backgroundColor = "#F8FAFC";
+    })
+
+    grid.addEventListener('mouseover', () => {
+        if (eraserTool) {
+            grid.style.backgroundColor = "white";
+        }
+        else if (drawTool) {
+            grid.style.backgroundColor = "black";
+        }
+        else if (rainbowTool) {
+            grid.style.backgroundColor = `rgb(${getRandomInt(256)}, ${getRandomInt(256)}, ${getRandomInt(256)})`;
+        }
+    })
+
+    reset.addEventListener('click', () => {
+        grid.style.backgroundColor = "white";
+        reset.style.backgroundColor = "lightgreen";
+        eraser.style.backgroundColor = "#F8FAFC";
+        draw.style.backgroundColor = "#F8FAFC";
+        rainbow.style.backgroundColor = "#F8FAFC";
+        drawTool = false;
+        eraserTool = false;
+        rainbowTool = false;
+    })
+}
 
 /**
  * Gets a random integer in the range of 0 to max-1
@@ -127,7 +139,7 @@ function getRandomInt(max) {
  * @return gridSize the validated gridSize entered by the user
  * @note the gridSize is valid if it is in between 0 <= gridSize <= 100
  */
-function input(gridSize) {
+function userInput(gridSize) {
     let sentinel = -1;
     while (sentinel === -1) {
         if (gridSize > 100 || gridSize < 0) {
